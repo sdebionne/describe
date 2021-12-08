@@ -128,7 +128,7 @@ void print_with_annotation(std::ostream& os, T const& t, int indent = 0)
         for (int i = 0; i < indent; i++)
             os << "  ";
 
-        using A = boost::describe::annotate_member<T, decltype(D)>;
+        using A = boost::describe::annotate_member<decltype(D)>;
 
         static_assert(
             std::is_same_v<decltype(D), boost::describe::descriptor_by_pointer<
@@ -223,7 +223,7 @@ BOOST_AUTO_TEST_CASE(test_annotation_inherited)
     using Md = boost::describe::describe_members<T, boost::describe::mod_any_access | boost::describe::mod_inherited>;
 
     boost::mp11::mp_for_each<Md>([&](auto D) {
-        using A = boost::describe::annotate_member<T, decltype(D)>;
+        using A = boost::describe::annotate_member<decltype(D)>;
 
         std::cout << "\nAnnotations:\n";
         boost::mp11::mp_for_each<A>([&](auto a) {

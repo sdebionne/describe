@@ -74,15 +74,15 @@ namespace detail
 
 #define BOOST_ANNOTATE_MEMBER(C, m, ...)                                                             \
     static_assert(std::is_class_v<C>, "BOOST_ANNOTATE_MEMBER should only be used with class types"); \
-    inline auto boost_annotate_fn(C*, BOOST_DESCRIBE_NORMALIZED_MEMBER_DESCRIPTOR(C, m)*)            \
+    inline auto boost_annotate_fn(BOOST_DESCRIBE_NORMALIZED_MEMBER_DESCRIPTOR(C, m)*)                \
     {                                                                                                \
         return boost::describe::detail::member_annotation_fn_impl(                                   \
             0 BOOST_DESCRIBE_PP_FOR_EACH(BOOST_ANNOTATE_MEMBER_IMPL__, C, ##__VA_ARGS__));           \
     }
 } // namespace detail
 
-template <class T, class Md, class Nd = boost::describe::normalize_descriptor<Md>>
-using annotate_member = decltype(boost_annotate_fn(static_cast<T*>(0), static_cast<Nd*>(0)));
+template <class Md, class Nd = boost::describe::normalize_descriptor<Md>>
+using annotate_member = decltype(boost_annotate_fn(static_cast<Nd*>(0)));
 
 // Get annotation by name (requires C++20)
 template <typename A, auto name, typename P = detail::by_name<name>>
